@@ -4,8 +4,12 @@ import dotenv from "dotenv";
 import passport from "passport";
 import session from "express-session";
 
+import authRoutes from "./routes/auth.route.js";
+import taskRoutes from "./routes/tasks.route.js"
+import friendRoutes from "./routes/friends.route.js"
+
 import "./config/passport.js";
-import authRoutes from "./routes/auth.js";
+import { connectDatabase } from "./db/mongoConnection.js";
 
 dotenv.config();
 const app = express();
@@ -23,15 +27,14 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 /*------------------ Routes-------------------- */
-
-app.get("/", (req, res) => {
-    res.send("Hii from the server");
-});
-
-app.get('/auth', authRoutes);
+  
+app.use('/auth', authRoutes);
+app.use('/task', taskRoutes);
+app.use('/friend', friendRoutes);
   
 /* -----------------------PORT Listening----------------------- */
 const PORT = 3000;
 app.listen(PORT, () => {
-  console.log(`Server Started on ${PORT}`);
+    connectDatabase();
+    console.log(`Server Started on ${PORT}`);
 });
