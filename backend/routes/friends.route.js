@@ -1,5 +1,5 @@
 import User from "../models/User.js";
-
+import { isAuthenticated } from "../middleware/authMiddleware.js";
 import express from "express";
 const router = express.Router();
 
@@ -21,9 +21,10 @@ router.get("/search/:email", async (req, res) => {
   }
 });
 
-router.put("/send-request/:email", async (req, res) => {
+router.put("/send-request/:email",isAuthenticated, async (req, res) => {
   try {
-    const friend = User.findOne({ email: req.body.params });
+    
+    const friend = await User.findOne({ email: req.params.email });
     if (!friend) return res.status(404).json({ error: "user not found" });
 
     if (
@@ -39,9 +40,9 @@ router.put("/send-request/:email", async (req, res) => {
   }
 });
 
-router.get("/requests", async(req,res)=>{
+router.get("/requests",isAuthenticated, async(req,res)=>{
     const id = req.user.id;
-    const user = await User.findById(id);
+    const user = await User.findById(id).populate("pendingRequests", "name email");
     res.send(user.pendingRequests);
 })
 

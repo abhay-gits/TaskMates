@@ -11,8 +11,6 @@ passport.use(new GoogleStrategy({
   callbackURL: '/auth/google/callback',
 }, async(accessToken, refreshToken, profile, done) => {
   try {
-
-    console.log(profile);  // Handle user data (Save to DB)
     
     let user = await User.findOne({ googleId: profile.id });
     if(!user){
@@ -23,7 +21,7 @@ passport.use(new GoogleStrategy({
         profilePic: profile.photos[0].value
       });
     }
-    done(null, user);
+    return done(null, user);
   } catch (error) {
     done(error, null);
   }
