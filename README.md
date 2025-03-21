@@ -1,6 +1,6 @@
 # TaskMates
 
-TaskMates is a modern task management application built with React, Node.js, and MongoDB. It provides a seamless platform for users to manage their tasks and collaborate with others.
+TaskMates is a modern task management application built with React, Node.js, and MongoDB. It provides a seamless platform for users to manage their tasks and collaborate with friends.
 
 ## Features
 
@@ -49,7 +49,7 @@ GOOGLE_CLIENT_SECRET=your_google_client_secret
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/TaskMates.git
+git clone https://github.com/abhay-gits/TaskMates.git
 cd TaskMates
 ```
 
