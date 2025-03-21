@@ -47,7 +47,13 @@ app.get('/api/user', (req, res) => {
   
 /* -----------------------PORT Listening----------------------- */
 const PORT = 3000;
-app.listen(PORT, () => {
-    connectDatabase();
-    console.log(`Server Started on ${PORT}`);
+const server = app.listen(PORT, async () => {
+    try {
+        await connectDatabase();
+        console.log(`Server Started on ${PORT}`);
+    } catch (error) {
+        console.error("Database connection failed:", error);
+        server.close();
+        process.exit(1);
+    }
 });

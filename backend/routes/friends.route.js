@@ -3,6 +3,21 @@ import { isAuthenticated } from "../middleware/authMiddleware.js";
 import express from "express";
 const router = express.Router();
 
+router.get("/friends", async(req,res)=>{
+  try {
+    const userId = req.user.id;
+    const user = await User.findById(userId).populate("friends", "name email profilePic")
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.json(user.friends)
+  } catch (error) {
+    console.log("error in fetching friends", error.message);
+    res.status(500).json({ message: "Internal server error" });
+  }
+})
+
+
 router.get("/search/:email", async (req, res) => {
   try {
     const { email } = req.params;
@@ -47,10 +62,13 @@ router.get("/requests",isAuthenticated, async(req,res)=>{
 })
 
 router.post('/accept-request', async(req,res)=>{
+  try {
     const { requesterId } = req.body;
+
     const requester = await User.findById( requesterId );
     const user = await User.findById( req.user.id );
-    user.pendingRequests = user.pendingRequests.filter(id=> id.toString !== requester.id)
+
+    user.pendingRequests = user.pendingRequests.filter(id=> id.toString() !== requester.id)
     user.friends.push(requester.id)
     requester.friends.push(user.id)
 
@@ -58,6 +76,9 @@ router.post('/accept-request', async(req,res)=>{
     await requester.save();
 
     res.json({ message: "friend request accepted"})
+  } catch (error) {
+    console.log(error)
+  }
 })
 
 export default router;

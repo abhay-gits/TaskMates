@@ -1,4 +1,5 @@
 import Task from "../models/Tasks.js";
+import User from "../models/User.js";
 
 import express from "express";
 const router = express.Router();
@@ -38,5 +39,30 @@ router.delete("/:taskId", async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 });
+
+router.get("/friends-tasks", async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    // Get user with friends details
+    const user = await User.findById(userId).populate("friends", "name email profilePic");
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Fetch tasks for each friend
+    const friendsWithTasks = await Promise.all(user.friends.map(async (friend) => {
+      const tasks = await Task.find({ userId: friend._id }).select("title status");
+      return { ...friend.toObject(), tasks }; // Merge friend details with tasks
+    }));
+
+    res.json(friendsWithTasks);
+  } catch (error) {
+    console.log("Error in fetching friends and tasks:", error.message);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
 
 export default router;
