@@ -65,6 +65,20 @@ app.get('/api/user', (req, res) => {
       res.status(401).json({ message: 'Not authenticated' });
     }
 });
+
+app.get('/auth/check', (req, res) => {
+  console.log('Session ID:', req.sessionID);
+  console.log('Session data:', req.session);
+  console.log('Is authenticated:', req.isAuthenticated());
+  console.log('User:', req.user);
+  
+  res.json({
+    authenticated: req.isAuthenticated(),
+    sessionID: req.sessionID,
+    hasSession: !!req.session,
+    hasUser: !!req.user
+  });
+});
   
 /* -----------------------PORT Listening----------------------- */
 const PORT = process.env.PORT || 3000;
