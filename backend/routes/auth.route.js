@@ -9,11 +9,11 @@ router.get('/google',
 
 router.get('/google/callback',
   passport.authenticate('google', { 
-    failureRedirect: 'http://localhost:5173/login',
+    failureRedirect: process.env.CLIENT_URL + '/login',
   }), 
   (req, res) => {
     console.log("Authentication successful", req.user);
-    res.redirect('http://localhost:5173');
+    res.redirect(process.env.CLIENT_URL);
   }
 );
 
