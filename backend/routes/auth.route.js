@@ -13,7 +13,19 @@ router.get('/google/callback',
   }), 
   (req, res) => {
     console.log("Authentication successful", req.user);
-    res.redirect(process.env.CLIENT_URL);
+    console.log("Session ID:", req.sessionID);
+    console.log("Is authenticated:", req.isAuthenticated());
+    
+    // Explicitly login to ensure session is saved
+    req.login(req.user, (err) => {
+      if (err) {
+        console.error("Login error:", err);
+        return res.redirect(process.env.CLIENT_URL + '/login');
+      }
+      
+      // Redirect to dashboard or home page
+      res.redirect(process.env.CLIENT_URL + '/dashboard');
+    });
   }
 );
 
