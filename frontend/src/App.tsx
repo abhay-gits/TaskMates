@@ -4,7 +4,7 @@ import AppRoutes from "./routes";
 import Navbar from "./components/Navbar";
 import { useLocation } from "react-router-dom";
 
-axios.defaults.baseURL = "http://localhost:3000";
+axios.defaults.baseURL = "https://taskmates-8wmg.onrender.com";
 axios.defaults.withCredentials = true;
 axios.defaults.headers.common["Accept"] = "application/json";
 axios.defaults.headers.common["Content-Type"] = "application/json";

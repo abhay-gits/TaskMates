@@ -3,6 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import passport from "passport";
 import session from "express-session";
+import MongoStore from "connect-mongo";
 
 import authRoutes from "./routes/auth.route.js";
 import taskRoutes from "./routes/tasks.route.js"
@@ -21,10 +22,20 @@ app.use(cors({
 }));
 app.use(express.json());
 app.use(session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized : false,
-    }))
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  store: MongoStore.create({
+      mongoUrl: process.env.MONGO_URI,  // Use your MongoDB connection string
+      collectionName: 'sessions'
+  }),
+  cookie: {
+      secure: false,      // Set to true in production (requires HTTPS)
+      httpOnly: true,    // Prevents client-side JS access to cookies
+      sameSite: 'lax'   // Required for cross-origin authentication
+  }
+}));
+
 app.use(passport.initialize())
 app.use(passport.session())
 

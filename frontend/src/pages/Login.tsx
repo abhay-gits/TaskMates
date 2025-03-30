@@ -1,9 +1,7 @@
-import React from 'react';
-
 const Login = () => {
 
   const handleGoogleLogin = () => {
-    window.location.href = "http://localhost:3000/auth/google";
+    window.location.href = "https://taskmates-8wmg.onrender.com/auth/google";
 
   };
 
