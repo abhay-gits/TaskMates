@@ -26,7 +26,8 @@ function App() {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const { data } = await axios.get("/api/user");
+        const response = await axios.get("https://taskmates-8wmg.onrender.com/api/user");
+        const data = response.data
         setUser(data);
       } catch (error) {
         console.error("Error fetching user:", error);
@@ -56,7 +57,7 @@ function App() {
           <Navbar />
         </>
       )}
-      <AppRoutes user={user} />
+      <AppRoutes user={user} loading={loading} />
     </div>
   );
 }

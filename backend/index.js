@@ -21,20 +21,22 @@ app.use(cors({
   credentials: true
 }));
 app.use(express.json());
-app.use(session({
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: false,
-  store: MongoStore.create({
-      mongoUrl: process.env.MONGO_URI,  // Use your MongoDB connection string
-      collectionName: 'sessions'
-  }),
-  cookie: {
-      secure: false,      // Set to true in production (requires HTTPS)
-      httpOnly: true,    // Prevents client-side JS access to cookies
-      sameSite: 'lax'   // Required for cross-origin authentication
-  }
-}));
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    store: MongoStore.create({
+      mongoUrl: process.env.MONGO_URI, // ✅ Use your MongoDB connection
+      ttl: 14 * 24 * 60 * 60, // ✅ Session expires in 14 days
+    }),
+    cookie: {
+      secure: false, // ✅ Since frontend is on HTTP (change to `true` when using HTTPS)
+      httpOnly: true,
+      sameSite: "lax",
+    },
+  })
+);
 
 app.use(passport.initialize())
 app.use(passport.session())
