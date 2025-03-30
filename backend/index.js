@@ -34,14 +34,14 @@ app.use(session({
   saveUninitialized: false,
   store: MongoStore.create({
     mongoUrl: process.env.MONGO_URI,
-    ttl: 24 * 60 * 60,
-    autoRemove: 'native'
+    ttl: 24 * 60 * 60
   }),
   cookie: { 
-    secure: process.env.NODE_ENV === 'production', // Only use secure in production
-    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+    secure: true,
+    sameSite: 'none', // Required for cross-domain cookies
     maxAge: 24 * 60 * 60 * 1000,
-    httpOnly: true
+    httpOnly: true,
+    domain: process.env.NODE_ENV === 'production' ? '.onrender.com' : undefined // Optional - try with and without
   }
 }));
 
