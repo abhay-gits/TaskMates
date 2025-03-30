@@ -2,25 +2,12 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import AppRoutes from "./routes";
 import Navbar from "./components/Navbar";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
-// Configure axios defaults
 axios.defaults.baseURL = "https://taskmates-8wmg.onrender.com";
 axios.defaults.withCredentials = true;
 axios.defaults.headers.common["Accept"] = "application/json";
 axios.defaults.headers.common["Content-Type"] = "application/json";
-
-// Add response interceptor for handling auth errors
-axios.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    console.error('API Error:', error.response?.data || error.message);
-    if (error.response?.status === 401) {
-      window.location.href = '/login';
-    }
-    return Promise.reject(error);
-  }
-);
 
 export interface User {
   _id: string;
@@ -33,34 +20,24 @@ function App() {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const location = useLocation();
-  const navigate = useNavigate();
 
   const isLoginPage = location.pathname === "/login";
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        console.log('Fetching user...');
-        const { data } = await axios.get("/api/user");
-        console.log("User data received:", data);
+        const response = await axios.get("https://taskmates-8wmg.onrender.com/api/user");
+        const data = response.data
         setUser(data);
-        
-        if (isLoginPage && data) {
-          navigate('/');
-        }
-      } catch (error: any) {
-        console.error("Error fetching user:", error.response?.data || error.message);
+      } catch (error) {
+        console.error("Error fetching user:", error);
         setUser(null);
-        if (!isLoginPage && error.response?.status === 401) {
-          navigate('/login');
-        }
       } finally {
         setLoading(false);
       }
     };
-
     fetchUser();
-  }, [isLoginPage]);
+  }, []);
 
   if (loading) {
     return (
