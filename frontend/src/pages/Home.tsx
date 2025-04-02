@@ -1,17 +1,6 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import FriendsTasks from "../components/FriendsTasks";
-
-interface User {
-  _id: string;
-  name: string;
-  email: string;
-  profilePic: string;
-}
-
-interface HomeProps {
-  user: User;
-}
 
 interface Task {
   _id: string;
@@ -19,34 +8,27 @@ interface Task {
   completed: boolean;
 }
 
-const Home: React.FC<HomeProps> = ({ user }) => {
+const Home=() => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [newTaskTitle, setNewTaskTitle] = useState<string>("");
 
   const fetchTasks = async () => {
     try {
-      const { data } = await axios.get("/task", {
-        params: { userId: user._id },
-      });
+      const { data } = await axios.get("/api/task");
       setTasks(data);
     } catch (error) {
       console.error("Error fetching tasks:", error);
     }
-  };
+  }
   useEffect(() => {
     fetchTasks();
   }, []);
 
   const handleAddTask = async () => {
+    if (newTaskTitle.trim() === "") return;
+
     try {
-      const { data } = await axios.post("/task", {
-        title: newTaskTitle,
-        userId: user._id,
-      });
-      setTasks([
-        ...tasks,
-        { _id: data.id, title: newTaskTitle, completed: false },
-      ]);
+      await axios.post("/api/task", { title: newTaskTitle });
       setNewTaskTitle("");
       fetchTasks();
     } catch (error) {
@@ -56,7 +38,7 @@ const Home: React.FC<HomeProps> = ({ user }) => {
 
   const deleteTask = async (id: string)=>{
     try {
-      await axios.delete(`/task/${id}`)
+      await axios.delete(`/api/task/${id}`)
       console.log("task deleted")
       fetchTasks();
     } catch (error) {

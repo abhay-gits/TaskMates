@@ -1,39 +1,24 @@
-import React from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
-import Friends from "./pages/Friends";
-import Profile from "./pages/Profile";
-import { User } from "./App";
+import Signup from "./pages/Signup";
+import { AuthContext } from "./context/AuthContext";
+import { JSX, useContext } from "react";
 
-interface RoutesProps {
-  user: User | null;
-  loading: boolean;  // ✅ Add loading state
-}
-
-const AppRoutes: React.FC<RoutesProps> = ({ user, loading }) => {
-  if (loading) return null;  // ✅ Prevent rendering until loading is done
-
+const AppRoutes = () => {
+  const { authUser } = useContext(AuthContext);
   return (
     <Routes>
-      <Route
-        path="/login"
-        element={user ? <Navigate to="/" replace /> : <Login />}
-      />
-      <Route
-        path="/"
-        element={user ? <Home user={user} /> : <Navigate to="/login" replace />}
-      />
-      <Route
-        path="/profile"
-        element={user ? <Profile user={user} /> : <Navigate to="/login" replace />}
-      />
-      <Route
-        path="/friends"
-        element={user ? <Friends /> : <Navigate to="/login" replace />}
-      />
+      <Route path="/signup" element={authUser?<Navigate to='/' replace />:<Signup/>} />
+      <Route path="/login" element={authUser?<Navigate to='/' replace />:<Login/>} />
+      <Route path="/" element={<ProtectedRoute><Home/></ProtectedRoute>} />
     </Routes>
   );
 };
 
 export default AppRoutes;
+
+const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
+  const { authUser } = useContext(AuthContext);
+  return authUser ? children : <Navigate to="/login" replace/>;
+};
