@@ -23,21 +23,21 @@ const Friends = () => {
   const [newFriendEmail, setNewFriendEmail] = useState<string>("");
   const [searchError, setSearchError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchFriendRequests = async () => {
-      try {
-        const { data } = await axios.get("/api/friend/requests");
-        setFriendRequests(data);
-      } catch (error) {
-        const axiosError = error as AxiosError<{ message: string }>;
-      if (axiosError.response?.data?.message) {
-        toast.error(axiosError.response.data.message);
-      } else {
-        toast.error("An error occurred. Please try again.");
-      }
-      }
-    };
+  const fetchFriendRequests = async () => {
+    try {
+      const { data } = await axios.get("/api/friend/requests");
+      setFriendRequests(data);
+    } catch (error) {
+      const axiosError = error as AxiosError<{ message: string }>;
+    if (axiosError.response?.data?.message) {
+      toast.error(axiosError.response.data.message);
+    } else {
+      toast.error("An error occurred. Please try again.");
+    }
+    }
+  };
 
+  useEffect(() => {
     fetchFriendRequests();
   }, []);
 
@@ -72,7 +72,7 @@ const Friends = () => {
     if (!searchResult) return;
     try {
       await axios.put(`/api/friend/send-request/${searchResult.email}`);
-      toast.success("Friend added successfully!");
+      toast.success("Friend request sent!");
       setNewFriendEmail("");
       setSearchResult(null);
     } catch (error) {
@@ -92,6 +92,7 @@ const Friends = () => {
     try {
       await axios.put(`/api/friend/accept-request/${requesterId}`);
       toast.success("Friend request accepted!");
+      fetchFriendRequests();
     } catch (error) {
       const axiosError = error as AxiosError<{ message: string }>;
       if (axiosError.response?.data?.message) {
