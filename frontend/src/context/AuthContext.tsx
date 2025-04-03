@@ -12,11 +12,13 @@ interface User {
 interface AuthContextType {
   authUser: User | null;
   setAuthUser: (user: User | null) => void;
+  loading: boolean;
 }
 
 export const AuthContext = createContext<AuthContextType>({
   authUser: null,
   setAuthUser: () => {},
+  loading: true,
 });
 
 interface AuthContextProviderProps {
@@ -25,12 +27,14 @@ interface AuthContextProviderProps {
 
 export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({ children }) => {
   const [authUser, setAuthUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchUser = async () => {
     const token = localStorage.getItem("token");
     if (!token) {
       setAuthUser(null);
+      setLoading(false);
       return;
     }
     try {
@@ -44,12 +48,15 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({ childr
         toast.error("An error occurred. Please try again.");
       }
       setAuthUser(null);
-    }}
+    } finally {
+      setLoading(false);
+    }
+  }
     fetchUser();
   }, []);
 
   return (
-    <AuthContext.Provider value={{ authUser, setAuthUser }}>
+    <AuthContext.Provider value={{ authUser, setAuthUser, loading }}>
       {children}
     </AuthContext.Provider>
   );

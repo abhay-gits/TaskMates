@@ -6,9 +6,11 @@ import { AuthContext } from "./context/AuthContext";
 import { JSX, useContext } from "react";
 import Profile from "./pages/Profile";
 import Friends from "./pages/Friends";
+import Loading from "./components/Loading";
 
 const AppRoutes = () => {
-  const { authUser } = useContext(AuthContext);
+  const { authUser, loading } = useContext(AuthContext);
+  if (loading) return <Loading />;
   
   return (
     <Routes>

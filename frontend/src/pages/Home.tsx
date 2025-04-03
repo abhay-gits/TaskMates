@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import axios, { AxiosError } from "axios";
 import FriendsTasks from "../components/FriendsTasks";
 import toast from "react-hot-toast";
+import Loading from "../components/Loading";
 
 interface Task {
   _id: string;
@@ -12,6 +13,7 @@ interface Task {
 const Home=() => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [newTaskTitle, setNewTaskTitle] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(true);
 
   const fetchTasks = async () => {
     try {
@@ -23,7 +25,9 @@ const Home=() => {
         toast.error(axiosError.response.data.message);
       } else {
         toast.error("An error occurred. Please try again.");
-      }
+      } 
+    } finally {
+      setLoading(false);
     }
   }
   useEffect(() => {
@@ -63,7 +67,13 @@ const Home=() => {
       }
     }
   }
-
+  if (loading) {
+    return (
+      <div>
+        <Loading />
+      </div>
+    );
+  }
   return (
     <div className="max-w-4xl mx-auto p-6">
       <div className="bg-white rounded-lg shadow-md p-6 mb-8">
