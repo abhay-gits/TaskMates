@@ -124,11 +124,11 @@ const Friends = () => {
       <h1 className="text-3xl font-bold mb-8 text-gray-800">Friends</h1>
 
       {/* Search Section */}
-      <div className="bg-white rounded-lg shadow-md p-6 mb-8">
+      <div className="bg-white rounded-lg shadow-md p-4 md:p-6 mb-8">
         <h2 className="text-xl font-semibold mb-4 text-gray-700">
           Find Friends
         </h2>
-        <div className="flex gap-2">
+        <div className="flex gap-1 md:gap-2">
           <input
             type="email"
             value={newFriendEmail}
@@ -138,7 +138,7 @@ const Friends = () => {
           />
           <button
             onClick={handleSearchFriend}
-            className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-md transition duration-200"
+            className="bg-blue-500 hover:bg-blue-600 text-white px-3 md:px-6 py-2 rounded-md transition duration-200"
           >
             Search
           </button>

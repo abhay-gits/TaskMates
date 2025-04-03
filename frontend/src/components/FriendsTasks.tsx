@@ -13,9 +13,11 @@ const FriendsTasks = () => {
 
   return (
     <div className="max-w-2xl mx-auto p-4">
-      <h2 className="text-2xl font-bold mb-4">Friends & Their Tasks</h2>
+      <h2 className="text-2xl font-bold mb-4">Friends Tasks</h2>
       <div className="space-y-4">
-        {tasks.map((friend: any) => (
+        {tasks
+        .filter((friend: any) => friend.tasks.length > 0)
+        .map((friend: any) => (
           <div key={friend._id} className="bg-white shadow-md rounded-lg p-4">
             <div className="flex items-center space-x-4">
               <img
@@ -30,7 +32,7 @@ const FriendsTasks = () => {
             </div>
             <div className="mt-3">
               <h4 className="font-semibold text-gray-700">Tasks:</h4>
-              {friend.tasks.length > 0 ? (
+              
                 <ul className="mt-2 space-y-1">
                   {friend.tasks.map((task: any) => (
                     <li
@@ -43,9 +45,7 @@ const FriendsTasks = () => {
                     </li>
                   ))}
                 </ul>
-              ) : (
-                <p className="text-gray-500 mt-2">No Tasks...</p>
-              )}
+              
             </div>
           </div>
         ))}
