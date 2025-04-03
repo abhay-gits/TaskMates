@@ -4,14 +4,19 @@ import Home from "./pages/Home";
 import Signup from "./pages/Signup";
 import { AuthContext } from "./context/AuthContext";
 import { JSX, useContext } from "react";
+import Profile from "./pages/Profile";
+import Friends from "./pages/Friends";
 
 const AppRoutes = () => {
   const { authUser } = useContext(AuthContext);
+  
   return (
     <Routes>
-      <Route path="/signup" element={authUser?<Navigate to='/' replace />:<Signup/>} />
-      <Route path="/login" element={authUser?<Navigate to='/' replace />:<Login/>} />
+      <Route path="/signup" element={authUser ? <Navigate to='/' replace /> : <Signup/>} />
+      <Route path="/login" element={authUser ? <Navigate to='/' /> : <Login/>} />
       <Route path="/" element={<ProtectedRoute><Home/></ProtectedRoute>} />
+      <Route path="/profile" element={<ProtectedRoute><Profile/></ProtectedRoute>} />
+      <Route path="/friends" element={<ProtectedRoute><Friends/></ProtectedRoute>} />
     </Routes>
   );
 };

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import FriendsTasks from "../components/FriendsTasks";
+import toast from "react-hot-toast";
 
 interface Task {
   _id: string;
@@ -17,7 +18,12 @@ const Home=() => {
       const { data } = await axios.get("/api/task");
       setTasks(data);
     } catch (error) {
-      console.error("Error fetching tasks:", error);
+      const axiosError = error as AxiosError<{ message: string }>;
+      if (axiosError.response?.data?.message) {
+        toast.error(axiosError.response.data.message);
+      } else {
+        toast.error("An error occurred. Please try again.");
+      }
     }
   }
   useEffect(() => {
@@ -31,18 +37,30 @@ const Home=() => {
       await axios.post("/api/task", { title: newTaskTitle });
       setNewTaskTitle("");
       fetchTasks();
+      toast.success("Task Added");
     } catch (error) {
-      console.error("Error adding task:", error);
+      const axiosError = error as AxiosError<{ message: string }>;
+      if (axiosError.response?.data?.message) {
+        toast.error(axiosError.response.data.message);
+      } else {
+        toast.error("An error occurred. Please try again.");
+      }
     }
   };
 
   const deleteTask = async (id: string)=>{
     try {
       await axios.delete(`/api/task/${id}`)
-      console.log("task deleted")
+      toast.success("Task Completed");
       fetchTasks();
+      toast.success("Task Completed");
     } catch (error) {
-      console.error("Error deleting task:", error);
+      const axiosError = error as AxiosError<{ message: string }>;
+      if (axiosError.response?.data?.message) {
+        toast.error(axiosError.response.data.message);
+      } else {
+        toast.error("An error occurred. Please try again.");
+      }
     }
   }
 

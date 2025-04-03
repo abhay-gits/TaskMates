@@ -51,7 +51,6 @@ export const register = async (req, res) => {
     });
 
   } catch (error) {
-    console.error("Error during registration:", error);
     return res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -76,15 +75,9 @@ export const login = async (req, res) => {
         username: user.username,
         email: user.email,
         profileImage: user.profileImage,
-        friends: user.friends,
-        pendingRequests: user.pendingRequests,
       },
     });
   } catch (error) {
-    console.error("Error during login:", error);
     return res.status(500).json({ message: "Internal server error" });
   }
 };
-
-//logout
-export const logout = async (req, res) => {};

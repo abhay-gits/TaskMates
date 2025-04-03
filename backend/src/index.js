@@ -12,7 +12,7 @@ const app = express();
 app.use(express.json());
 
 app.use(cors({
-  origin: ['http://localhost:5173', 'https://tasksmates.vercel.app'],
+  origin: ['https://tasksmates.vercel.app'],
   credentials: true,
   methods: ['GET', 'PUT', 'POST', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization']
@@ -27,7 +27,6 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, async () => {
     try {
         await connectDatabase();
-        console.log(`Server Started on ${PORT}`);
     } catch (error) {
         console.error("Database connection failed:", error);
         server.close();

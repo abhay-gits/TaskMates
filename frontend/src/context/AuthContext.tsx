@@ -1,5 +1,6 @@
 import { createContext, useState, useEffect, ReactNode } from "react";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
+import toast from "react-hot-toast";
 
 interface User {
   _id: string;
@@ -28,12 +29,20 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({ childr
   useEffect(() => {
     const fetchUser = async () => {
     const token = localStorage.getItem("token");
-    if (!token) return;
+    if (!token) {
+      setAuthUser(null);
+      return;
+    }
     try {
       const { data } = await axios.get("/api/user");      
       setAuthUser(data);
     } catch (error) {
-      console.error("Error fetching user:", error);
+      const axiosError = error as AxiosError<{ message: string }>;
+      if (axiosError.response?.data?.message) {
+        toast.error(axiosError.response.data.message);
+      } else {
+        toast.error("An error occurred. Please try again.");
+      }
       setAuthUser(null);
     }}
     fetchUser();

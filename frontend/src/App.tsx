@@ -1,6 +1,8 @@
 import axios from "axios";
 import AppRoutes from "./routes";
 import Navbar from "./components/Navbar";
+import { useLocation } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 
 axios.defaults.baseURL = import.meta.env.VITE_API_URL;
 axios.defaults.withCredentials = true;
@@ -11,20 +13,22 @@ axios.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem(
 )}`;
 
 function App() {
+  const location = useLocation();
   const isLoginPage =
-    window.location.pathname === "/login" ||
-    window.location.pathname === "/signup";
+    location.pathname === "/login" || location.pathname === "/signup";
+
   return (
     <div>
+      <Toaster position="top-right" reverseOrder={false} />
       {!isLoginPage && (
         <>
           <div className="bg-gradient-to-br from-blue-500 to-purple-600 h-16 flex items-center justify-center px-3">
             <h1 className="text-white text-2xl font-bold">TaskMates</h1>
           </div>
           <Navbar />
-          <AppRoutes />;
         </>
       )}
+      <AppRoutes />;
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import axios, { AxiosResponse } from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
+import toast from "react-hot-toast";
 
 const Login: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -11,15 +12,26 @@ const Login: React.FC = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async(e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const response: AxiosResponse<{ message: String}> = await axios.post("/api/login", formData);
-    if (response.status === 200) {
-        alert("Signup successful!");
-        } else {
-        alert("Signup failed. Please try again.");
-        }
-    console.log("Signup Data:", formData);
+    try {
+      const response: AxiosResponse<{ token: string; message: string }> =
+        await axios.post("/api/auth/login", formData);
+      if (response.status === 200) {
+        localStorage.setItem("token", response.data.token);
+        toast.success("Login successful! Redirecting...");
+        setTimeout(() => {
+          window.location.href = "/";
+        }, 2000);
+      }
+    } catch (error) {
+      const axiosError = error as AxiosError<{ message: string }>;
+      if (axiosError.response?.data?.message) {
+        toast.error(axiosError.response.data.message);
+      } else {
+        toast.error("An error occurred. Please try again.");
+      }
+    }
   };
 
   return (
@@ -49,7 +61,10 @@ const Login: React.FC = () => {
               required
             />
           </div>
-          <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600">
+          <button
+            type="submit"
+            className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
+          >
             Login
           </button>
         </form>

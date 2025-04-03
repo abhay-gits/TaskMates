@@ -4,7 +4,6 @@ import User from "../models/User.js";
 const protectedRoute = async (req, res, next) => {
     try {
         const token = req.headers["authorization"]?.split(" ")[1];
-        console.log("Token:", token); // Log the token for debugging
         if (!token) {
             return res.status(401).json({ message: "Unauthorized access" });
         }
@@ -19,7 +18,6 @@ const protectedRoute = async (req, res, next) => {
         req.user = user;
         next(); 
     } catch (error) {
-        console.error("Error in protected route middleware:", error);
         res.status(500).json({ message: "Internal server error" });
     }
 };
