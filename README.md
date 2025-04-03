@@ -4,8 +4,9 @@ TaskMates is a modern task management application built with React, Node.js, and
 
 ## Features
 
-- User authentication with Google OAuth
 - Task creation and management
+- Add Friends
+- View their Tasks
 - Real-time updates
 - Modern and responsive UI built with Tailwind CSS
 - Secure API endpoints with JWT authentication
@@ -24,7 +25,6 @@ TaskMates is a modern task management application built with React, Node.js, and
 - Node.js
 - Express.js
 - MongoDB with Mongoose
-- Passport.js for authentication
 - JWT for token-based authentication
 - CORS enabled
 
@@ -41,8 +41,6 @@ Create a `.env` file in the root directory with the following variables:
 ```
 MONGODB_URI=your_mongodb_connection_string
 JWT_SECRET=your_jwt_secret
-GOOGLE_CLIENT_ID=your_google_client_id
-GOOGLE_CLIENT_SECRET=your_google_client_secret
 ```
 
 ## Installation
