@@ -97,6 +97,16 @@ export const acceptRequest = async (req, res) => {
     if (!requesterId) {
       return res.status(400).json({ message: "requesterId is required" });
     }
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    if (user.friends.includes(requesterId)) {
+      return res.status(400).json({ message: "Already friends" });
+    }
+    if (!user.pendingRequests.includes(requesterId)) {
+      return res.status(400).json({ message: "No pending request from this user" });
+    }
     await User.findByIdAndUpdate(userId, {
       $pull: { pendingRequests: requesterId },
       $push: { friends: requesterId },
