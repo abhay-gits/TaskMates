@@ -76,10 +76,10 @@ const Home=() => {
   }
   return (
     <div className="max-w-4xl mx-auto p-6">
-      <div className="bg-white rounded-lg shadow-md p-6 mb-8">
+      <div className="bg-white rounded-lg shadow-md p-3 md:p-6 mb-8">
         {/* Add Task Section */}
         <div className="mb-8">
-          <div className="flex gap-2">
+          <div className="flex gap-1">
             <input
               type="text"
               maxLength={50}
@@ -90,7 +90,7 @@ const Home=() => {
             />
             <button
               onClick={handleAddTask}
-              className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-md transition duration-200"
+              className="bg-blue-500 hover:bg-blue-600 text-white px-3 md:px-6 py-2 rounded-md transition duration-200"
             >
               Add
             </button>

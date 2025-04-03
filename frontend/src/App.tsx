@@ -3,6 +3,7 @@ import AppRoutes from "./routes";
 import Navbar from "./components/Navbar";
 import { useLocation } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
+import icon from "./assets/icon.svg";
 
 axios.defaults.baseURL = import.meta.env.VITE_API_URL;
 axios.defaults.withCredentials = true;
@@ -22,13 +23,14 @@ function App() {
       <Toaster position="top-right" reverseOrder={false} />
       {!isLoginPage && (
         <>
-          <div className="bg-gradient-to-br from-blue-500 to-purple-600 h-16 flex items-center justify-center px-3">
+          <div className="bg-gradient-to-br from-blue-500 to-purple-600 h-16 flex items-center gap-7 px-3">
+            <img src={icon} width={35} />
             <h1 className="text-white text-2xl font-bold">TaskMates</h1>
           </div>
           <Navbar />
         </>
       )}
-      <AppRoutes />;
+      <AppRoutes />
     </div>
   );
 }
