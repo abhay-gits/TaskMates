@@ -57,7 +57,6 @@ const Home=() => {
       await axios.delete(`/api/task/${id}`)
       toast.success("Task Completed");
       fetchTasks();
-      toast.success("Task Completed");
     } catch (error) {
       const axiosError = error as AxiosError<{ message: string }>;
       if (axiosError.response?.data?.message) {

@@ -89,6 +89,7 @@ const Friends = () => {
 
   const acceptRequest = async (id: string) => {
     const requesterId = id;
+    console.log("Requester ID:", requesterId); // Log the requester ID
     try {
       await axios.put(`/api/friend/accept-request/${requesterId}`);
       toast.success("Friend request accepted!");
@@ -103,13 +104,15 @@ const Friends = () => {
     }
   };
 
-  /* Accept request */
+  /* Decline request */
 
   const rejectRequest = async (id: string) => {
     try {
-      await axios.put(`/api/friend/reject-request/${id}`);
+      const {data} = await axios.put(`/api/friend/reject-request/${id}`);
+      console.log("Response data:"); // Log the response data
       toast.success("Friend request rejected!");
     } catch (error) {
+      console.log("Error:", error); 
       const axiosError = error as AxiosError<{ message: string }>;
       if (axiosError.response?.data?.message) {
         toast.error(axiosError.response.data.message);

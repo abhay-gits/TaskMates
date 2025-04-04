@@ -114,6 +114,7 @@ export const acceptRequest = async (req, res) => {
     await User.findByIdAndUpdate(requesterId, {
       $push: { friends: userId },
     });
+    res.status(200).json({ message: "Request accepted" });
   } catch (error) {
     return res.status(500).json({ message: "Internal server error" });
   }
@@ -130,6 +131,7 @@ export const rejectRequest = async (req, res) => {
     await User.findByIdAndUpdate(userId, {
       $pull: { pendingRequests: requesterId },
     });
+    res.status(200).json({ message: "Request rejected" });
   } catch (error) {
     return res.status(500).json({ message: "Internal server error" });
   }
