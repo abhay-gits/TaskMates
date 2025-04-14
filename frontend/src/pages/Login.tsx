@@ -44,6 +44,7 @@ const Login: React.FC = () => {
           <form onSubmit={handleSubmit} className="flex flex-col w-full">
             <label>Email</label>
             <input
+              name="email"
               type="email"
               className="border border-gray-400 rounded-md p-2 mb-4 w-full mt-2"
               placeholder="Enter your email"
@@ -52,6 +53,7 @@ const Login: React.FC = () => {
             />
             <label>Password</label>
             <input
+              name="password"
               type="password"
               className="border border-gray-400 rounded-md p-2 mb-4 w-full mt-2"
               placeholder="**************"
