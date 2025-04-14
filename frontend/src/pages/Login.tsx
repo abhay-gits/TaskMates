@@ -40,14 +40,18 @@ const Login: React.FC = () => {
       <div className="min-h-full w-full grid grid-cols-1 md:grid-cols-2 gap-y-0">
         {/* Left Hand Side */}
         <div className="flex flex-col items-center justify-center p-10 md:p-30">
-          <h1 className="text-3xl font-bold mb-2 text-green-800">Tasks-Mates</h1>
-          <p className="mb-5 text-center">Welcome back! Please enter your details.</p>
+          <h1 className="text-3xl font-bold mb-2 text-green-800">
+            Tasks-Mates
+          </h1>
+          <p className="mb-5 text-center">
+            Welcome back! Please enter your details.
+          </p>
           <form className="flex flex-col w-full" onSubmit={handleSubmit}>
             <label>Email</label>
             <input
-            value={formData.email}
-            onChange={handleChange}
-            name="email"
+              value={formData.email}
+              onChange={handleChange}
+              name="email"
               required
               type="email"
               className="border border-green-400 rounded-md p-2 mb-4 w-full mt-2"
@@ -75,20 +79,14 @@ const Login: React.FC = () => {
           </form>
         </div>
         {/* Right Hand Side */}
-        <div className="h-50 md:h-full p-6 order-1 md:order-2" >
-        <div className="bg-gradient-to-br from-green-400 to-green-300 flex items-center justify-center rounded-2xl h-full">
-          <img className="object-contain w-96 h-full" src={bg} />
+        <div className="h-50 md:h-full p-6 order-1 md:order-2">
+          <div className="bg-gradient-to-br from-green-400 to-green-300 flex items-center justify-center rounded-2xl h-full">
+            <img className="object-contain w-96 h-full" src={bg} />
+          </div>
         </div>
       </div>
-        </div>
     </div>
-  )
+  );
 };
 
 export default Login;
-
-
-
-
-    
-
