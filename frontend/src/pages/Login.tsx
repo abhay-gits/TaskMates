@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import toast from "react-hot-toast";
-import icon from "../assets/icon.svg";
+import bg from "./assets/background.svg";
 
 const Login: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -36,50 +36,50 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="z-[-1] gap-20 h-dvh flex flex-col justify-center items-center bg-gradient-to-r from-blue-500 to-purple-600 p-4">
-    <img src="https://cdn.pixabay.com/photo/2024/01/12/17/01/leaves-8504392_1280.jpg" 
-    className="z-[0] absolute top-0 left-0 w-full h-full object-cover opacity-20" alt="Background" />
-      <div className="z-10 p-6 rounded-lg shadow-lg w-full max-w-md bg-white/50">
-        <h2 className="text-3xl font-bold mb-6 text-center text-blue-600">Login</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label className="block text-gray-700 mb-2">Email</label>
+    <div className="h-screen flex items-center justify-center p-7 font-mono ">
+      <div className="rounded-2xl md:h-full w-full flex md:grid grid-cols-2 overflow-hidden">
+        <div className=" flex flex-col items-center justify-center p-10 ">
+          <h1 className="text-3xl font-bold mb-2">Tasks-Mates</h1>
+          <p className="mb-5">Welcome back! Please enter your details.</p>
+          <form onSubmit={handleSubmit} className="flex flex-col w-full">
+            <label>Email</label>
             <input
               type="email"
-              name="email"
+              className="border border-gray-400 rounded-md p-2 mb-4 w-full mt-2"
+              placeholder="Enter your email"
               value={formData.email}
               onChange={handleChange}
-              className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
             />
-          </div>
-          <div className="mb-6">
-            <label className="block text-gray-700 mb-2">Password</label>
+            <label>Password</label>
             <input
               type="password"
-              name="password"
+              className="border border-gray-400 rounded-md p-2 mb-4 w-full mt-2"
+              placeholder="**************"
               value={formData.password}
               onChange={handleChange}
-              className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
             />
-          </div>
-          <button
-            type="submit"
-            className="w-full bg-blue-500 text-white p-3 rounded hover:bg-blue-600 transition duration-200"
-          >
-            Login
-          </button>
-        </form>
-        <p className="mt-4 text-center">
-          Don't have an account?{" "}
-          <a href="/signup" className="text-blue-500 hover:underline">
-            Sign Up
-          </a>
-        </p>
+            <button type="submit" className="bg-red-500 text-white rounded-md p-2 px-20 md:px-29 m-auto cursor-pointer hover:bg-red-600 transition duration-200">
+              Sign In
+            </button>
+            <p className="text-center mt-4 text-sm md:text-base">
+              Don't have an account?{" "}
+              <a href="/signup" className="text-blue-500">
+                Sign Up
+              </a>
+            </p>
+          </form>
+        </div>
+        <div className="bg-gradient-to-br from-red-400 to-red-300 hidden md:flex items-center justify-center rounded-2xl ">
+          <img className="w-96 bg-contain" src={bg} />
+        </div>
       </div>
     </div>
   )
 };
 
 export default Login;
+
+
+
+    
+
