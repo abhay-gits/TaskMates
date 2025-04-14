@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import toast from "react-hot-toast";
-import bg from "./assets/background.svg";
+import bg from "../assets/background.svg";
 
 const Login: React.FC = () => {
   const [formData, setFormData] = useState({
