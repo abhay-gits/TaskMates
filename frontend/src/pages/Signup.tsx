@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import axios, { AxiosResponse, AxiosError } from "axios";
-import { Link } from "react-router-dom";
 import bg from "../assets/background.svg";
 import toast from "react-hot-toast";
 
